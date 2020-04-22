@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.lviv.ai.oop_labs.second.controller.ElementsController;
 import ua.lviv.ai.oop_labs.second.model.Element;
 import ua.lviv.ai.oop_labs.second.model.Kit;
-import ua.lviv.ai.oop_labs.second.model.SortElementsBy;
+import ua.lviv.ai.oop_labs.second.model.SortBy;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,11 +23,11 @@ public class ElementLinkHelper implements IElementLinkHelper {
 
     @Override
     public Element addLinks(Element model) {
-        return addLinks(model, SortElementsBy.ID);
+        return addLinks(model, SortBy.ID);
     }
 
     @Override
-    public Element addLinks(Element element, SortElementsBy sortElementsBy) {
+    public Element addLinks(Element element, SortBy sortElementsBy) {
         if (element == null)
             return null;
 
@@ -42,20 +42,21 @@ public class ElementLinkHelper implements IElementLinkHelper {
             element.add(linkTo(methodOn(ElementsController.class, element.getId()).replacementForElement(element.getId(), sortElementsBy))
                     .withRel("replacementForElement"));
 
-        for (Kit kit : element.getKits()) {
-            kitLinkHelper.addLinks(kit);
-        }
+        if (element.getKits() != null)
+            for (Kit kit : element.getKits()) {
+                kitLinkHelper.addLinks(kit);
+            }
 
         return element;
     }
 
     @Override
     public List<Element> addLinks(List<Element> elements) {
-        return addLinks(elements, SortElementsBy.ID);
+        return addLinks(elements, SortBy.ID);
     }
 
     @Override
-    public List<Element> addLinks(List<Element> elements, SortElementsBy sortElementsBy) {
+    public List<Element> addLinks(List<Element> elements, SortBy sortElementsBy) {
         for (Element element : elements)
             addLinks(element, sortElementsBy);
 

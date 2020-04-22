@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.lviv.ai.oop_labs.second.dataaccess.IKitRepository;
 import ua.lviv.ai.oop_labs.second.model.Element;
 import ua.lviv.ai.oop_labs.second.model.Kit;
+import ua.lviv.ai.oop_labs.second.model.SortBy;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,9 +63,43 @@ public class KitService implements IService<Kit> {
     }
 
     @Override
-    public List<Kit> findAll() {
-        return kitLinkHelper.addLinks(kitRepository.findAll());
+    public List<Kit> findAll(SortBy sortBy) {
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        return kitLinkHelper.addLinks(kitRepository.findAll(sortBy.getSort()));
     }
+
+    @Override
+    public List<Kit> findAllBy(Double maxPrice, String producer, SortBy sortBy) {
+        if (sortBy == null)
+            sortBy = SortBy.ID;
+
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        if (maxPrice == null && producer == null)
+            return findAll(sortBy);
+
+        if (producer == null) {
+            return findAllCheaperThan(maxPrice, sortBy);
+        } else {
+            if (maxPrice == null) {
+                return findAllByProducer(producer, sortBy);
+            } else {
+                return findAllByProducerCheaperThan(producer, maxPrice, sortBy);
+            }
+        }
+    }
+
+    @Override
+    public List<Kit> findAllByProducerCheaperThan(String producer, Double maxPrice, SortBy sortBy) {
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        return kitLinkHelper.addLinks(kitRepository.findAllByProducerAndPriceLessThanEqual(producer, maxPrice, sortBy.getSort()));
+    }
+
 
     @Override
     public Kit findById(Integer kitId) {
@@ -74,17 +109,26 @@ public class KitService implements IService<Kit> {
     }
 
     @Override
-    public List<Kit> findAllByName(String name) {
-        return kitLinkHelper.addLinks(kitRepository.findAllByName(name));
+    public List<Kit> findAllByName(String name, SortBy sortBy) {
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        return kitLinkHelper.addLinks(kitRepository.findAllByName(name, sortBy.getSort()));
     }
 
     @Override
-    public List<Kit> findAllByProducer(String producer) {
-        return kitLinkHelper.addLinks(kitRepository.findAllByProducer(producer));
+    public List<Kit> findAllByProducer(String producer, SortBy sortBy) {
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        return kitLinkHelper.addLinks(kitRepository.findAllByProducer(producer, sortBy.getSort()));
     }
 
     @Override
-    public List<Kit> findAllCheaperThan(Double maxPrice) {
-        return kitLinkHelper.addLinks(kitRepository.findAllByPriceLessThanEqual(maxPrice));
+    public List<Kit> findAllCheaperThan(Double maxPrice, SortBy sortBy) {
+        if (!sortBy.isGoodForKits())
+            sortBy = SortBy.ID;
+
+        return kitLinkHelper.addLinks(kitRepository.findAllByPriceLessThanEqual(maxPrice, sortBy.getSort()));
     }
 }

@@ -6,7 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.ai.oop_labs.second.business.IService;
 import ua.lviv.ai.oop_labs.second.model.Kit;
+import ua.lviv.ai.oop_labs.second.model.SortBy;
 
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequestMapping("/kits")
@@ -16,8 +20,11 @@ public class KitsController {
     private IService<Kit> kitService;
 
     @GetMapping
-    public List<Kit> getKits() {
-        return kitService.findAll();
+    public List<Kit> getKits(final @Valid @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                             final @Valid @RequestParam(value = "producer", required = false) String producer,
+                             @Valid @RequestParam(value = "sortBy", required = false) SortBy sortBy) {
+
+        return kitService.findAllBy(maxPrice, producer, sortBy);
     }
 
     @GetMapping(path = "/{id}")
@@ -52,5 +59,16 @@ public class KitsController {
         HttpStatus status = kitService.update(kit) == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
 
         return ResponseEntity.status(status).build();
+    }
+
+    @GetMapping(path = "/sortMethods")
+    public ResponseEntity<List<SortBy>> getSortTypes() {
+        List<SortBy> types = new LinkedList<>(Arrays.asList(SortBy.values()));
+
+        types.removeIf(sort -> !sort.isGoodForKits());
+
+        HttpStatus status = HttpStatus.OK;
+
+        return new ResponseEntity<>(types, status);
     }
 }
