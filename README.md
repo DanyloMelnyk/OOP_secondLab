@@ -65,7 +65,7 @@ SET @@global.time_zone = '+03:00';
     * enum **type** - тип елементів (список всіх типів `/elements/types`)
 
     ##### Приклад:
-    * Запит: `GET http://localhost:8080/elements?maxPrice=1.5&producer=Hitano&sortBy=AMOUNT&type=RESISTOR&sortBy=TYPE`
+    * Запит: `GET http://localhost:8080/elements?maxPrice=1.5&producer=Hitano&sortBy=AMOUNT&type=RESISTOR`
     
         Body запиту: `none`
     
