@@ -28,13 +28,18 @@ public class KitService implements IService<Kit> {
 
         for (int i = 0; i < elements.length; i++) {
             if (!elementService.existInRepositoryById(elements[i].getId())) {
-                elements[i] = elementService.create(elements[i]);
+                elements[i] = elementService.save(elements[i]);
             }
         }
 
         kit.setElementsFromArr(elements);
 
         return kitLinkHelper.addLinks(kitRepository.save(kit));
+    }
+
+    @Override
+    public Kit save(Kit kit) {
+        return kitRepository.save(kit);
     }
 
     @Override
@@ -59,6 +64,9 @@ public class KitService implements IService<Kit> {
 
     @Override
     public boolean existInRepositoryById(Integer id) {
+        if (id == null)
+            return false;
+
         return kitRepository.existsById(id);
     }
 

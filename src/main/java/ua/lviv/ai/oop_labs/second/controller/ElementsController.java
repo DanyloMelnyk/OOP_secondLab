@@ -10,7 +10,6 @@ import ua.lviv.ai.oop_labs.second.model.ElementType;
 import ua.lviv.ai.oop_labs.second.model.SortBy;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

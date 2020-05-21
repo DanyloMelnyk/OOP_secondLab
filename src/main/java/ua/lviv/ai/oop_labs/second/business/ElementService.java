@@ -8,8 +8,7 @@ import ua.lviv.ai.oop_labs.second.model.ElementType;
 import ua.lviv.ai.oop_labs.second.model.Kit;
 import ua.lviv.ai.oop_labs.second.model.SortBy;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static ua.lviv.ai.oop_labs.second.model.SortBy.ID;
 
@@ -23,11 +22,47 @@ public class ElementService implements IElementService {
     IService<Kit> kitService;
 
     @Autowired
-    ElementLinkHelper linkHelper;
+    IElementLinkHelper linkHelper;
 
     @Override
     public Element create(Element element) {
-        return linkHelper.addLinks(elementRepository.save(element));
+
+        if (element.getId() == null)
+            element.setId(10000000);
+
+        Element newElement = elementRepository.save(element);
+
+        List<Kit> kits = new LinkedList<>(element.getKits());
+
+        /*
+        Kit[] kits = new Kit[element.size()];
+        kit.getElements().toArray(elements);
+         */
+
+        for (int i = 0; i < kits.size(); i++) {
+            Kit temp = kits.get(i);
+
+            if (!kitService.existInRepositoryById(temp.getId())) {
+                if (temp.getElements() == null) {
+                    temp.setElements(new HashSet<>(1));
+                }
+
+                if (temp.getElements().isEmpty())
+                    temp.getElements().add(newElement);
+
+                kits.set(i, kitService.save(temp));
+            }
+        }
+
+        element.setKits(Set.copyOf(kits));
+        element.setId(newElement.getId());
+
+        return linkHelper.addLinks(save(element));
+    }
+
+    @Override
+    public Element save(Element element) {
+        return elementRepository.save(element);
     }
 
     @Override
@@ -58,6 +93,9 @@ public class ElementService implements IElementService {
 
     @Override
     public boolean existInRepositoryById(Integer id) {
+        if (id == null)
+            return false;
+
         return elementRepository.existsById(id);
     }
 
