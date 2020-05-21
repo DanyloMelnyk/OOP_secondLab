@@ -12,7 +12,7 @@ Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
 При вникненні помилки при запуску 
 > java.sql.SQLException: The server time zone value '' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the 'serverTimezone' configuration property) to use a more specifc time zone value if you want to utilize time zone support.
 
-необхідно виконати команду 
+в MySQL Workbench необхідно виконати команду 
 ```sql
 SET @@global.time_zone = '+03:00';
 ```
