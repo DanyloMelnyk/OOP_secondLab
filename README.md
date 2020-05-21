@@ -3,11 +3,11 @@
 
 Необхідний **JDK 14**
            
-Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`
-
-Використовується база даних **MySQL8**, налаштування в файлі **src/main/resources/application.properties**
+Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`. 
 
 Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
+
+Використовується база даних **MySQL8**, налаштування в файлі **src/main/resources/application.properties**
 
 При вникненні помилки при запуску 
 > java.sql.SQLException: The server time zone value '' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the 'serverTimezone' configuration property) to use a more specifc time zone value if you want to utilize time zone support.
@@ -18,6 +18,26 @@ SET @@global.time_zone = '+03:00';
 ```
 
 
+------------
+
+## Доступні запити
+* /elements/
+    * **GET** /elements/
+    * **GET** /elements/{id}
+        * **GET** /elements/{id}/comp
+    * **POST** /elements/
+    * **PUT** /elements/{id}
+    * **DELETE** /elements/{id}
+    * **GET** /elements/types
+    * **GET** /elements/sortMethods <br><br>
+* /kits/
+    * **GET** /kits/
+    * **GET** /kits/{id}
+    * **POST** /kits/
+    * **PUT** /kits/{id}
+    * **DELETE** /kits/{id}
+    * **GET** /kits/sortMethods
+    
 ------------
 
 ## /elements/
