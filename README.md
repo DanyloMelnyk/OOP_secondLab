@@ -115,7 +115,7 @@ SET @@global.time_zone = '+03:00';
         
         Response status: `404 (Not found)`
         
-        Response body: `none`
+        Response body: `none` <br><br>
         
     * Запит: `GET http://localhost:8080/elements/3`
           
@@ -175,7 +175,7 @@ SET @@global.time_zone = '+03:00';
     Якщо елемент {id} не існує повертає код `404 (Not found)`. Якщо не існує замінників повертає порожній масив.
     
     ##### Додаткові параметри:
-        * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
+    * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
     
     ##### Приклад:
     * Запит: `GET http://localhost:8080/elements/321/comp`
@@ -184,7 +184,7 @@ SET @@global.time_zone = '+03:00';
             
         Response status: `404 (Not found)`
             
-        Response body: `none`
+        Response body: `none` <br><br>
             
     * Запит: `GET http://localhost:8080/elements/5/comp`
               
@@ -261,6 +261,7 @@ SET @@global.time_zone = '+03:00';
             }
       }
       ```
+      <br>
     
     * Запит: `POST http://localhost:8080/elements/`
             
@@ -343,7 +344,7 @@ SET @@global.time_zone = '+03:00';
             
         Response status: `200 (OK)`
             
-        Response body: `none`
+        Response body: `none` <br><br>
             
     * Запит: `GET http://localhost:8080/elements/2122`
     
@@ -360,6 +361,26 @@ SET @@global.time_zone = '+03:00';
             "amount": 149
         }
          ```          
+              
+        Response status: `404 (Not found)`
+           
+        Response body: `none`
+
+* #### DELETE /{id}
+    Видалення елемента {id}. Якщо елемент {id} не існує повертає код `404 (Not found)`.
+
+    ##### Приклад:
+    * Запит: `DELETE http://localhost:8080/elements/4`
+        
+        Body запиту: `none`
+            
+        Response status: `200 (OK)`
+            
+        Response body: `none` <br><br>
+            
+    * Запит: `DELETE http://localhost:8080/elements/2122`
+    
+        Body запиту: `none`
               
         Response status: `404 (Not found)`
            
