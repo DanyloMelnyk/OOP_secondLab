@@ -5,7 +5,7 @@
            
 Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`. 
 
-Main class _**src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**_
+Main class _**src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication.java**_
 
 Використовується база даних **MySQL8**, налаштування в файлі _**src/main/resources/application.properties**_
 
