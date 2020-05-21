@@ -31,6 +31,79 @@ SET @@global.time_zone = '+03:00';
 
 ------------
 
+## Приклад даних у JSON форматі
+### Element 
+```json
+{
+    "id": 6,
+    "name": "Resistor 3,6 Ohm 5% 0.125W",
+    "value": 3.6,
+    "voltage": 0.125,
+    "producer": "Uni Ohm",
+    "type": "RESISTOR",
+    "price": 0.3,
+    "amount": 21227,
+    "kits": [
+        {
+            "id": 20,
+            "name": "testKitName2",
+            "producer": "DFROBOT",
+            "price": 129.99,
+            "_links": {
+                "self": {
+                    "href": "http://localhost:8080/kits/20"
+                }
+            }
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/elements/6"
+        },
+        "replacementForElement": {
+            "href": "http://localhost:8080/elements/6/comp?sortBy=ID"
+        }
+    }
+}
+   ```
+
+### Kit
+```json
+{
+    "id": 17,
+    "name": "testKitName1",
+    "producer": "DAGU",
+    "price": 84.99,
+    "elements": [
+        {
+            "id": 3,
+            "name": "Glass fuse 4x11 100mA 250V",
+            "value": 0.1,
+            "voltage": 250.0,
+            "producer": "Hollyland",
+            "type": "FUSE",
+            "price": 5.0,
+            "amount": 645,
+            "_links": {
+                "self": {
+                    "href": "http://localhost:8080/elements/3"
+                },
+                "replacementForElement": {
+                    "href": "http://localhost:8080/elements/3/comp?sortBy=ID"
+                }
+            }
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/kits/17"
+        }
+    }
+}
+  ```
+
+------------
+
 ## Доступні запити
 * [/elements/](https://github.com/DanyloMelnyk/OOP_secondLab#elements)
     * **GET** /elements/
@@ -48,7 +121,7 @@ SET @@global.time_zone = '+03:00';
     * **PUT** /kits/{id}
     * **DELETE** /kits/{id}
     * **GET** /kits/sortMethods
-    
+        
 ------------
 
 ## /elements/
