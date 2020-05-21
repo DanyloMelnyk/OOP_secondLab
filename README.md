@@ -1,9 +1,13 @@
 # Лабораторна робота №2 з ООП Мельника Данила
 Лабораторна робота №2 з ООП студента групи КН115 Мельника Данила.
 
-Використовується база даних MySQL8, налаштування в файлі **src/main/resources/application.properties**
+Необхідний **JDK 14**
+           
+Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`
 
-Main class src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication
+Використовується база даних **MySQL8**, налаштування в файлі **src/main/resources/application.properties**
+
+Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
 
 При вникненні помилки при запуску 
 > java.sql.SQLException: The server time zone value '' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the 'serverTimezone' configuration property) to use a more specifc time zone value if you want to utilize time zone support.
@@ -26,7 +30,7 @@ SET @@global.time_zone = '+03:00';
     ##### Додаткові параметри:
     * float **maxPrice** - максимальна ціна елементів
     * String **producer** - виробник елементів
-    * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
+    * enum **sortBy** - критерій сортування (список всіх критеріїв `/elements/sortMethods`; всі крім AMOUNT в порядку зростання, AMOUNT - спадання)
     * enum **type** - тип елементів (список всіх типів `/elements/types`)
 
     ##### Приклад:
@@ -175,7 +179,7 @@ SET @@global.time_zone = '+03:00';
     Якщо елемент {id} не існує повертає код `404 (Not found)`. Якщо не існує замінників повертає порожній масив.
     
     ##### Додаткові параметри:
-    * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
+    * enum **sortBy** - критерій сортування (список всіх критеріїв `/elements/sortMethods`; всі крім AMOUNT в порядку зростання, AMOUNT - спадання)
     
     ##### Приклад:
     * Запит: `GET http://localhost:8080/elements/321/comp`
@@ -346,7 +350,7 @@ SET @@global.time_zone = '+03:00';
             
         Response body: `none` <br><br>
             
-    * Запит: `GET http://localhost:8080/elements/2122`
+    * Запит: `PUT http://localhost:8080/elements/2122`
     
         Body запиту:
          ```json
@@ -385,10 +389,390 @@ SET @@global.time_zone = '+03:00';
         Response status: `404 (Not found)`
            
         Response body: `none`
+        
+* #### GET /types
+    Повертає масив всіх типів елементів.
 
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/elements/types`
+    
+        Body запиту: `none`
+    
+        Response status: `200 (OK)`
+    
+        Response body: 
+        ```json
+      [
+          "IC",
+          "TRANSISTOR",
+          "DIODE",
+          "LED",
+          "CONDENSER",
+          "RESISTOR",
+          "FUSE",
+          "QUARTZ_RESONATOR"
+      ]
+      ```        
+        
+* #### GET /sortMethods
+    Повертає масив всіх критеріїв сортування елементів.
+
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/elements/sortMethods`
+    
+        Body запиту: `none`
+    
+        Response status: `200 (OK)`
+    
+        Response body: 
+        ```json
+      [
+          "ID",
+          "NAME",
+          "VALUE",
+          "VOLTAGE",
+          "PRODUCER",
+          "TYPE",
+          "PRICE",
+          "AMOUNT"
+      ]
+      ```          
+        
 ------------
 
+## /kits/
 
-JDK 14
+* #### GET
+    Перегляд наборів елементів в каталозі.
+    Повертає масив наборів у JSON форматі.
+    Якщо наборів немає повертає порожній масив.
+    
+    ##### Додаткові параметри:
+    * float **maxPrice** - максимальна ціна елементів
+    * String **producer** - виробник елементів
+    * enum **sortBy** - критерій сортування (список всіх критеріїв `/elements/sortMethods`; всі крім AMOUNT в порядку зростання, AMOUNT - спадання)
 
-java --enable-preview -jar second-0.0.1-SNAPSHOT.jar
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/kits?sortBy=PRODUCER&maxPrice=100.0&producer=DAGU`
+        Body запиту: `none`
+    
+        Response status: `200 (OK)`
+    
+        Response body: 
+        ```json
+      [
+          {
+              "id": 17,
+              "name": "testKitName1",
+              "producer": "DAGU",
+              "price": 84.99,
+              "elements": [
+                  {
+                      "id": 3,
+                      "name": "Glass fuse 4x11 100mA 250V",
+                      "value": 0.1,
+                      "voltage": 250.0,
+                      "producer": "Hollyland",
+                      "type": "FUSE",
+                      "price": 5.0,
+                      "amount": 645,
+                      "links": [
+                          {
+                              "rel": "self",
+                              "href": "http://localhost:8080/elements/3"
+                          },
+                          {
+                              "rel": "replacementForElement",
+                              "href": "http://localhost:8080/elements/3/comp?sortBy=ID"
+                          }
+                      ]
+                  }
+              ],
+              "links": [
+                  {
+                      "rel": "self",
+                      "href": "http://localhost:8080/kits/17"
+                  }
+              ]
+          }
+      ]
+      ```
+
+* #### GET /{id}
+    Поверає набір з заданим id у JSON форматі. Якщо такого немає повертає код `404 (Not found)`.
+    
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/kits/22233`
+    
+        Body запиту: `none`
+        
+        Response status: `404 (Not found)`
+        
+        Response body: `none` <br><br>
+        
+    * Запит: `GET http://localhost:8080/kits/17`
+          
+         Body запиту: `none`
+          
+         Response status: `200 (OK)`
+         
+         Response body: 
+         
+         ```json
+        {
+            "id": 17,
+            "name": "testKitName1",
+            "producer": "DAGU",
+            "price": 84.99,
+            "elements": [
+                {
+                    "id": 3,
+                    "name": "Glass fuse 4x11 100mA 250V",
+                    "value": 0.1,
+                    "voltage": 250.0,
+                    "producer": "Hollyland",
+                    "type": "FUSE",
+                    "price": 5.0,
+                    "amount": 645,
+                    "_links": {
+                        "self": {
+                            "href": "http://localhost:8080/elements/3"
+                        },
+                        "replacementForElement": {
+                            "href": "http://localhost:8080/elements/3/comp?sortBy=ID"
+                        }
+                    }
+                }
+            ],
+            "_links": {
+                "self": {
+                    "href": "http://localhost:8080/kits/17"
+                }
+            }
+        }
+        ```
+
+* #### POST
+    Додавання до каталогу нового набору, з body запиту. Параметр id набору в body ігнорується, повертає набір з створеним/оновленим полем id, доданим полем _links з посиланням на сам набір.
+    Якщо в списку elements є неіснуюючі елементи (з неіснуючим id) вони будуть створені і додані в набір; якщо існуюючі просто будть додані в набір(при цьому можна вказувати лише id елемента, інші його дані ігноруються).
+    Якщо елементи існували до надслання запиту то їхні поля (окрім _links) у відповіді будуть = null.
+
+    ##### Приклад:
+    * Запит: `POST http://localhost:8080/kits/`
+            
+        Body запиту:
+        ```json
+        {
+            "name": "testKitName10",
+            "producer": "Sparkfun",
+            "price": 700.99,
+            "elements": [
+                {
+                    "id": 65
+                },
+                {
+                    "id": 40
+                },
+                {
+                    "id": 26
+                },
+                {
+                    "id": 22
+                },
+                {
+                	"id": 129,
+                    "name": "Capacitor 470 nF 100V",
+                    "value": 0.00000047,
+                    "voltage": 100,
+                    "producer": "Epcos",
+                    "type": "CONDENSER",
+                    "price": 1.3,
+                    "amount": 8025
+                }
+            ]
+        }
+      ```                
+        Response status: `201 (Created)`
+                
+        Response body:
+      ```json
+      {
+          "id": 77,
+          "name": "testKitName10",
+          "producer": "Sparkfun",
+          "price": 700.99,
+          "elements": [
+              {
+                  "id": 26,
+                  "name": null,
+                  "value": 0.0,
+                  "voltage": 0.0,
+                  "producer": null,
+                  "type": null,
+                  "price": null,
+                  "amount": 0,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/elements/26"
+                      },
+                      "replacementForElement": {
+                          "href": "http://localhost:8080/elements/26/comp?sortBy=ID"
+                      }
+                  }
+              },
+              {
+                  "id": 40,
+                  "name": null,
+                  "value": 0.0,
+                  "voltage": 0.0,
+                  "producer": null,
+                  "type": null,
+                  "price": null,
+                  "amount": 0,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/elements/40"
+                      },
+                      "replacementForElement": {
+                          "href": "http://localhost:8080/elements/40/comp?sortBy=ID"
+                      }
+                  }
+              },
+              {
+                  "id": 76,
+                  "name": "Capacitor 470 nF 100V",
+                  "value": 4.7E-7,
+                  "voltage": 100.0,
+                  "producer": "Epcos",
+                  "type": "CONDENSER",
+                  "price": 1.3,
+                  "amount": 8025,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/elements/76"
+                      },
+                      "replacementForElement": {
+                          "href": "http://localhost:8080/elements/76/comp?sortBy=ID"
+                      }
+                  }
+              },
+              {
+                  "id": 65,
+                  "name": null,
+                  "value": 0.0,
+                  "voltage": 0.0,
+                  "producer": null,
+                  "type": null,
+                  "price": null,
+                  "amount": 0,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/elements/65"
+                      },
+                      "replacementForElement": {
+                          "href": "http://localhost:8080/elements/65/comp?sortBy=ID"
+                      }
+                  }
+              },
+              {
+                  "id": 22,
+                  "name": null,
+                  "value": 0.0,
+                  "voltage": 0.0,
+                  "producer": null,
+                  "type": null,
+                  "price": null,
+                  "amount": 0,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/elements/22"
+                      },
+                      "replacementForElement": {
+                          "href": "http://localhost:8080/elements/22/comp?sortBy=ID"
+                      }
+                  }
+              }
+          ],
+          "_links": {
+              "self": {
+                  "href": "http://localhost:8080/kits/77"
+              }
+          }
+      }
+      ```
+      <br><br>
+
+
+* #### PUT /{id}
+    Зміна набору {id} на елемент з body запиту. Id набору з body ігнорується. Якщо елемент {id} не існує повертає код `404 (Not found)`.
+
+    ##### Приклад:            
+    * Запит: `PUT http://localhost:8080/elements/2122`
+    
+        Body запиту:
+         ```json
+        {
+            "name": "testKitName10",
+            "producer": "Sparkfun",
+            "price": 700.99,
+            "elements": [
+                {
+                    "id": 23
+                },
+                {
+                	"id": 129,
+                    "name": "Capacitor 480 nF 100V",
+                    "value": 0.00000048,
+                    "voltage": 100,
+                    "producer": "Epcos",
+                    "type": "CONDENSER",
+                    "price": 1.3,
+                    "amount": 8425
+                }
+            ]
+        }
+         ```          
+              
+        Response status: `404 (Not found)`
+           
+        Response body: `none`
+
+* #### DELETE /{id}
+    Видалення набору {id}. Якщо набір {id} не існує повертає код `404 (Not found)`.
+
+    ##### Приклад:
+    * Запит: `DELETE http://localhost:8080/kits/77`
+        
+        Body запиту: `none`
+            
+        Response status: `200 (OK)`
+            
+        Response body: `none` <br><br>
+            
+    * Запит: `DELETE http://localhost:8080/elements/2122`
+    
+        Body запиту: `none`
+              
+        Response status: `404 (Not found)`
+           
+        Response body: `none`  
+        
+* #### GET /sortMethods
+    Повертає масив всіх критеріїв сортування наборів.
+
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/kits/sortMethods`
+    
+        Body запиту: `none`
+    
+        Response status: `200 (OK)`
+    
+        Response body: 
+        ```json
+      [
+          "ID",
+          "NAME",
+          "PRODUCER",
+          "PRICE"
+      ]
+      ```          
