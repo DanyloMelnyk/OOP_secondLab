@@ -204,7 +204,7 @@ SET @@global.time_zone = '+03:00';
     Якщо в списку kits є неіснуюючі набори вони будуть створені і до них буде доданий елемент; якщо існуюючі просто буде додано елемент. 
 
     #####Приклад:
-    * Запит: `POST http://localhost:8080/elements/321/comp`
+    * Запит: `POST http://localhost:8080/elements/`
             
         Body запиту:
         ```json
@@ -261,18 +261,65 @@ SET @@global.time_zone = '+03:00';
             }
       }
       ```
-                
-    * Запит: `GET http://localhost:8080/elements/5/comp`
-                  
-        Body запиту: `none`
-                  
-        Response status: `200 (OK)`
-               
-        Response body: 
-                 
+    
+    * Запит: `POST http://localhost:8080/elements/`
+            
+        Body запиту:
         ```json
-       []
-         ```
+        {
+            "name": "Capacitor 4,7 uF 16V",
+            "value": 0.0047,
+            "voltage": 16,
+            "producer": "Hitano",
+            "type": "CONDENSER",
+            "price": 2.2,
+            "amount": 1652,
+            "kits": [
+                {
+                    "id": 70,
+                    "name": "testKitName9",
+                    "producer": "Coolbass",
+                    "price": 180
+                }
+            ]
+        }
+      ```                
+        Response status: `201 (Created)`
+                
+        Response body:
+      ```json
+      {
+          "id": 71,
+          "name": "Capacitor 4,7 uF 16V",
+          "value": 0.0047,
+          "voltage": 16.0,
+          "producer": "Hitano",
+          "type": "CONDENSER",
+          "price": 2.2,
+          "amount": 1652,
+          "kits": [
+              {
+                  "id": 70,
+                  "name": "testKitName9",
+                  "producer": "Coolbass",
+                  "price": 180.0,
+                  "_links": {
+                      "self": {
+                          "href": "http://localhost:8080/kits/70"
+                      }
+                  }
+              }
+          ],
+          "_links": {
+              "self": {
+                  "href": "http://localhost:8080/elements/71"
+              },
+              "replacementForElement": {
+                  "href": "http://localhost:8080/elements/71/comp?sortBy=ID"
+              }
+          }
+      }
+      ```    
 
 ------------
 
