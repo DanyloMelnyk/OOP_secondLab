@@ -9,6 +9,14 @@ Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
 
 Використовується база даних **MySQL8**, налаштування в файлі **src/main/resources/application.properties**
 
+Дамп тестової бази даних з тестовими даними знаходиться в файлі Database.sql
+
+Файл "OOP second lab.postman_collection.json" - тестові запити експортовані з Postman.
+
+Архів INTELLIJ_IDEA.zip - експортований з IntelliJ IDEA проект.
+
+<br>
+
 При вникненні помилки при запуску 
 > java.sql.SQLException: The server time zone value '' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the 'serverTimezone' configuration property) to use a more specifc time zone value if you want to utilize time zone support.
 
@@ -16,12 +24,15 @@ Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
 ```sql
 SET @@global.time_zone = '+03:00';
 ```
+<br>
 
+[GitHub](https://github.com/DanyloMelnyk/OOP_secondLab)
+[Telegram](http://t.me/mel2danylo)
 
 ------------
 
 ## Доступні запити
-* /elements/
+* [/elements/](https://github.com/DanyloMelnyk/OOP_secondLab#elements)
     * **GET** /elements/
     * **GET** /elements/{id}
         * **GET** /elements/{id}/comp
@@ -30,7 +41,7 @@ SET @@global.time_zone = '+03:00';
     * **DELETE** /elements/{id}
     * **GET** /elements/types
     * **GET** /elements/sortMethods <br><br>
-* /kits/
+* [/kits/](https://github.com/DanyloMelnyk/OOP_secondLab#kits)
     * **GET** /kits/
     * **GET** /kits/{id}
     * **POST** /kits/
@@ -727,7 +738,7 @@ SET @@global.time_zone = '+03:00';
     Зміна набору {id} на елемент з body запиту. Id набору з body ігнорується. Якщо елемент {id} не існує повертає код `404 (Not found)`.
 
     ##### Приклад:            
-    * Запит: `PUT http://localhost:8080/elements/2122`
+    * Запит: `PUT http://localhost:8080/kit/2122`
     
         Body запиту:
          ```json

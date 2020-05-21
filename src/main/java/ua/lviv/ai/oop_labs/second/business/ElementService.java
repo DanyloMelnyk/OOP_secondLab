@@ -35,11 +35,6 @@ public class ElementService implements IElementService {
         if (element.getKits() != null) {
             List<Kit> kits = new LinkedList<>(element.getKits());
 
-        /*
-        Kit[] kits = new Kit[element.size()];
-        kit.getElements().toArray(elements);
-         */
-
             for (int i = 0; i < kits.size(); i++) {
                 Kit temp = kits.get(i);
 
