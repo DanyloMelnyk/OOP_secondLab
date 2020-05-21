@@ -1,7 +1,7 @@
 # Лабораторна робота №2 з ООП Мельника Данила
 Лабораторна робота №2 з ООП студента групи КН115 Мельника Данила.
 
-Необхідний **JDK 14**
+Необхідний [**JDK 14**](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
            
 Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`. 
 
