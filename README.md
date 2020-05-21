@@ -1,6 +1,8 @@
 # Лабораторна робота №2 з ООП Мельника Данила
 Лабораторна робота №2 з ООП студента групи КН115 Мельника Данила.
 
+Цей архів можна імпортувати в IntelliJ IDEA
+
 Необхідний [**JDK 14**](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
            
 Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`. 
@@ -12,8 +14,6 @@ Main class _**src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication.j
 Дамп тестової бази даних з тестовими даними знаходиться в файлі **_Database.sql_**
 
 Файл "**_OOP second lab.postman_collection.json_**" - тестові запити експортовані з Postman.
-
-Архів **_INTELLIJ_IDEA.zip_** - експортований з IntelliJ IDEA проект.
 
 <br>
 
