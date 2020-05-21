@@ -16,99 +16,99 @@ SET @@global.time_zone = '+03:00';
 
 ------------
 
-##/elements/
+## /elements/
 
-* ####GET
+* #### GET
     Перегляд елементів в каталозі.
     Повертає масив елементів у JSON форматі.
     Якщо елементів немає повертає порожній масив.
     
-    #####Додаткові параметри:
+    ##### Додаткові параметри:
     * float **maxPrice** - максимальна ціна елементів
     * String **producer** - виробник елементів
     * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
     * enum **type** - тип елементів (список всіх типів `/elements/types`)
 
-    #####Приклад:
-    Запит: `GET http://localhost:8080/elements?maxPrice=1.5&producer=Hitano&sortBy=AMOUNT&type=RESISTOR&sortBy=TYPE`
+    ##### Приклад:
+    * Запит: `GET http://localhost:8080/elements?maxPrice=1.5&producer=Hitano&sortBy=AMOUNT&type=RESISTOR&sortBy=TYPE`
     
-    Body запиту: `none`
+        Body запиту: `none`
     
-    Response status: `200 (OK)`
+        Response status: `200 (OK)`
     
-    Response body: 
-    ```json
-  [
-      {
-          "id": 40,
-          "name": "Resistor 1 kOhm 5% 0.25W",
-          "value": 1000.0,
-          "voltage": 0.25,
-          "producer": "Hitano",
-          "type": "RESISTOR",
-          "price": 0.4,
-          "amount": 130000,
-          "kits": [],
-          "links": [
-              {
-                  "rel": "self",
-                  "href": "http://localhost:8080/elements/40"
-              },
-              {
-                  "rel": "replacementForElement",
-                  "href": "http://localhost:8080/elements/40/comp?sortBy=AMOUNT"
-              }
-          ]
-      },
-      {
-          "id": 31,
-          "name": "Resistor 82 Ohm 5% 0.25W",
-          "value": 82.0,
-          "voltage": 0.25,
-          "producer": "Hitano",
-          "type": "RESISTOR",
-          "price": 0.4,
-          "amount": 12273,
-          "kits": [],
-          "links": [
-              {
-                  "rel": "self",
-                  "href": "http://localhost:8080/elements/31"
-              },
-              {
-                  "rel": "replacementForElement",
-                  "href": "http://localhost:8080/elements/31/comp?sortBy=AMOUNT"
-              }
-          ]
-      },
-      {
-          "id": 32,
-          "name": "Resistor 10 Ohm 5% 0.25W",
-          "value": 10.0,
-          "voltage": 0.25,
-          "producer": "Hitano",
-          "type": "RESISTOR",
-          "price": 0.4,
-          "amount": 10000,
-          "kits": [],
-          "links": [
-              {
-                  "rel": "self",
-                  "href": "http://localhost:8080/elements/32"
-              },
-              {
-                  "rel": "replacementForElement",
-                  "href": "http://localhost:8080/elements/32/comp?sortBy=AMOUNT"
-              }
-          ]
-      }
-  ]
-  ```
+        Response body: 
+        ```json
+      [
+          {
+              "id": 40,
+              "name": "Resistor 1 kOhm 5% 0.25W",
+              "value": 1000.0,
+              "voltage": 0.25,
+              "producer": "Hitano",
+              "type": "RESISTOR",
+              "price": 0.4,
+              "amount": 130000,
+              "kits": [],
+              "links": [
+                  {
+                      "rel": "self",
+                      "href": "http://localhost:8080/elements/40"
+                  },
+                  {
+                      "rel": "replacementForElement",
+                      "href": "http://localhost:8080/elements/40/comp?sortBy=AMOUNT"
+                  }
+              ]
+          },
+          {
+              "id": 31,
+              "name": "Resistor 82 Ohm 5% 0.25W",
+              "value": 82.0,
+              "voltage": 0.25,
+              "producer": "Hitano",
+              "type": "RESISTOR",
+              "price": 0.4,
+              "amount": 12273,
+              "kits": [],
+              "links": [
+                  {
+                      "rel": "self",
+                      "href": "http://localhost:8080/elements/31"
+                  },
+                  {
+                      "rel": "replacementForElement",
+                      "href": "http://localhost:8080/elements/31/comp?sortBy=AMOUNT"
+                  }
+              ]
+          },
+          {
+              "id": 32,
+              "name": "Resistor 10 Ohm 5% 0.25W",
+              "value": 10.0,
+              "voltage": 0.25,
+              "producer": "Hitano",
+              "type": "RESISTOR",
+              "price": 0.4,
+              "amount": 10000,
+              "kits": [],
+              "links": [
+                  {
+                      "rel": "self",
+                      "href": "http://localhost:8080/elements/32"
+                  },
+                  {
+                      "rel": "replacementForElement",
+                      "href": "http://localhost:8080/elements/32/comp?sortBy=AMOUNT"
+                  }
+              ]
+          }
+      ]
+      ```
 
-* ####GET /{id}
+* #### GET /{id}
     Поверає елемент з заданим id у JSON форматі. Якщо такого немає повертає код `404 (Not found)`.
     
-    #####Приклад:
+    ##### Приклад:
     * Запит: `GET http://localhost:8080/elements/321`
     
         Body запиту: `none`
@@ -170,14 +170,14 @@ SET @@global.time_zone = '+03:00';
         }
         ```
 
-* ####GET /{id}/comp
+* #### GET /{id}/comp
     Повертає елементи-замінники елемента {id} у вигляді JSON-масиву.
     Якщо елемент {id} не існує повертає код `404 (Not found)`. Якщо не існує замінників повертає порожній масив.
     
-    #####Додаткові параметри:
+    ##### Додаткові параметри:
         * enum **sortBy** - критерій сортування (ID, NAME, VALUE, VOLTAGE, PRODUCER, TYPE, PRICE, AMOUNT; всі крім AMOUNT в порядку зростання, AMOUNT спадання)
     
-    #####Приклад:
+    ##### Приклад:
     * Запит: `GET http://localhost:8080/elements/321/comp`
         
         Body запиту: `none`
@@ -199,11 +199,11 @@ SET @@global.time_zone = '+03:00';
          ```
 
 
-* ####POST
+* #### POST
     Додавання до каталогу нового елемента, з body запиту. Параметр id елемента в body ігнорується, повертає елемент з створеним/оновленим полем id, доданим полем _links з посиланнями на сам елемент і його замінники.
     Якщо в списку kits є неіснуюючі набори вони будуть створені і до них буде доданий елемент; якщо існуюючі просто буде додано елемент. 
 
-    #####Приклад:
+    ##### Приклад:
     * Запит: `POST http://localhost:8080/elements/`
             
         Body запиту:
@@ -320,6 +320,50 @@ SET @@global.time_zone = '+03:00';
           }
       }
       ```    
+
+* #### PUT /{id}
+    Зміна елемента {id} на елемент з body запиту. Id елемента з body ігнорується. Якщо елемент {id} не існує повертає код `404 (Not found)`.
+
+    ##### Приклад:
+    * Запит: `PUT http://localhost:8080/elements/16`
+        
+        Body запиту:
+        ```json
+        {
+            "id": 14,
+            "name": "Capacitor 100 uF 10V",
+            "value": 0.0001,
+            "voltage": 10,
+            "producer": "Rubycon",
+            "type": "CONDENSER",
+            "price": 0.75,
+            "amount": 149
+        }
+        ```
+            
+        Response status: `200 (OK)`
+            
+        Response body: `none`
+            
+    * Запит: `GET http://localhost:8080/elements/2122`
+    
+        Body запиту:
+         ```json
+        {
+            "id": 14,
+            "name": "Capacitor 100 uF 10V",
+            "value": 0.0001,
+            "voltage": 10,
+            "producer": "Rubycon",
+            "type": "CONDENSER",
+            "price": 0.75,
+            "amount": 149
+        }
+         ```          
+              
+        Response status: `404 (Not found)`
+           
+        Response body: `none`
 
 ------------
 

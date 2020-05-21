@@ -32,29 +32,32 @@ public class ElementService implements IElementService {
 
         Element newElement = elementRepository.save(element);
 
-        List<Kit> kits = new LinkedList<>(element.getKits());
+        if (element.getKits() != null) {
+            List<Kit> kits = new LinkedList<>(element.getKits());
 
         /*
         Kit[] kits = new Kit[element.size()];
         kit.getElements().toArray(elements);
          */
 
-        for (int i = 0; i < kits.size(); i++) {
-            Kit temp = kits.get(i);
+            for (int i = 0; i < kits.size(); i++) {
+                Kit temp = kits.get(i);
 
-            if (!kitService.existInRepositoryById(temp.getId())) {
-                if (temp.getElements() == null) {
-                    temp.setElements(new HashSet<>(1));
+                if (!kitService.existInRepositoryById(temp.getId())) {
+                    if (temp.getElements() == null) {
+                        temp.setElements(new HashSet<>(1));
+                    }
+
+                    if (temp.getElements().isEmpty())
+                        temp.getElements().add(newElement);
+
+                    kits.set(i, kitService.save(temp));
                 }
-
-                if (temp.getElements().isEmpty())
-                    temp.getElements().add(newElement);
-
-                kits.set(i, kitService.save(temp));
             }
+
+            element.setKits(Set.copyOf(kits));
         }
 
-        element.setKits(Set.copyOf(kits));
         element.setId(newElement.getId());
 
         return linkHelper.addLinks(save(element));
