@@ -5,15 +5,15 @@
            
 Команда для запуску скомпільованої програми `java --enable-preview -jar second-0.0.1-SNAPSHOT.jar`. 
 
-Main class **src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**
+Main class _**src/main/java/ua/lviv/ai/oop_labs/second/SecondOopLabApplication**_
 
-Використовується база даних **MySQL8**, налаштування в файлі **src/main/resources/application.properties**
+Використовується база даних **MySQL8**, налаштування в файлі _**src/main/resources/application.properties**_
 
-Дамп тестової бази даних з тестовими даними знаходиться в файлі Database.sql
+Дамп тестової бази даних з тестовими даними знаходиться в файлі **_Database.sql_**
 
-Файл "OOP second lab.postman_collection.json" - тестові запити експортовані з Postman.
+Файл "**_OOP second lab.postman_collection.json_**" - тестові запити експортовані з Postman.
 
-Архів INTELLIJ_IDEA.zip - експортований з IntelliJ IDEA проект.
+Архів **_INTELLIJ_IDEA.zip_** - експортований з IntelliJ IDEA проект.
 
 <br>
 
